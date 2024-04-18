@@ -1,4 +1,5 @@
-"use client"
+'use client'
+import { useState } from 'react'
 import {
     CartesianGrid,
     Line,
@@ -16,6 +17,14 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card'
+import { DatePickerWithRange } from '@/components/ui/date-picker'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 
 const data = [
     {
@@ -54,18 +63,43 @@ const data = [
 
 
 export default function Home() {
+    const [selectOccurrence, setSelectOccurrence] = useState('Vazamento de Esgoto')
+
     return (
-        <main className='flex flex-col gap-5 w-screen h-dvh bg-zinc-900 p-5'>
+        <main className='flex flex-col gap-5 w-screen min-h-dvh lg:h-vh bg-zinc-900 p-5'>
             <header className='h-32 border-2 rounded-lg'>
             </header>
-            <section className='flex gap-4'>
+            <section className='flex flex-col lg:flex-row gap-4'>
                 <Card className='flex-1 bg-zinc-800'>
                     <CardHeader className='flex-row items-center justify-between pb-8'>
                         <div className='space-y-1'>
                             <CardTitle className='text-zinc-100 text-base font-medium'>
-                                {/* Select component from shad to select the ocurrences */}
                                 {/* Date-picker component from shad to select the ocurrences */}
-                                Ocorrências de Vazamento de água no período de 11/12 01/02
+
+                                {/*  Vazamento de água 11/12 01/02 */}
+
+                                <div className='flex flex-col gap-4 lg:items-center lg:flex-row lg:gap-0'>
+                                    <p className='whitespace-pre'>Ocorrências de<span className='lg:hidden'>:</span></p>
+                                    <Select
+                                        onValueChange={e => setSelectOccurrence(e)}
+                                        value={selectOccurrence}
+                                        defaultValue={selectOccurrence}
+                                    >
+                                        <SelectTrigger className="w-[225px] border rounded-md py-2 mx-2">
+                                            <SelectValue>{selectOccurrence}</SelectValue>
+                                        </SelectTrigger>
+                                        <SelectContent className='bg-zinc-700 text-zinc-200'>
+                                            <SelectItem className="" value="Vazamento de Esgoto">Vazamento de Esgoto</SelectItem>
+                                            <SelectItem className="" value="Vazamento de Água">Vazamento de Água</SelectItem>
+                                            <SelectItem className="" value="Baixa Pressão">Baixa Pressão</SelectItem>
+                                            <SelectItem className="" value="Buraco na Calçada">Buraco na Calçada</SelectItem>
+                                            <SelectItem className="" value="Buraco na Rua">Buraco na Rua</SelectItem>
+                                            <SelectItem className="" value="Água Suja">Água Suja</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <p className='whitespace-pre mr-2'><span className='lg:hidden'>N</span><span className='hidden lg:inline'>n</span>o período de<span className='lg:hidden'>:</span></p>
+                                    <DatePickerWithRange className='ml-2 lg:ml-0'/>   
+                                </div>
                             </CardTitle>
                             <CardDescription className='text-zinc-400'>
                                 Período Mensal
@@ -144,5 +178,5 @@ export default function Home() {
                 </Card>
             </section>
         </main>
-    );
+    )
 }
