@@ -15,7 +15,6 @@ import {
     Card,
     CardContent,
     CardHeader,
-    CardTitle,
 } from '@/components/ui/card'
 import { DatePickerWithRange } from '@/components/ui/date-picker'
 import {
@@ -27,7 +26,7 @@ import {
 } from '@/components/ui/select'
 import { queryClient } from '@/lib/react-query'
 
-import { SelectCityState } from '../select-city'
+import { SelectCityState } from '../select-city-state'
 
 const data = [
     {
