@@ -2,8 +2,9 @@
 
 import { useQuery } from '@tanstack/react-query'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { fetchCities } from '@/api/fetch-cities'
 import { fetchStates } from '@/api/fetch-states'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,10 +30,21 @@ export function SelectCityState({ location }: ISelectCityStateProps) {
     const [open, setOpen] = useState(false)
     const [value, setValue] = useState('')
 
-    const { data: fetchedStates, isLoading } = useQuery({
-        queryKey: ['fetch-city-state-query'],
+    const { data: fetchedStates, isLoading: isLoadingStates, } = useQuery({
+        queryKey: ['fetch-state-query'],
         queryFn: fetchStates,
     })
+
+    useEffect(() => {
+        if (fetchedStates?.data.length !== 0) {
+            const { data: fetchedCities, isLoading: isLoadingCities } = useQuery({
+                queryKey: ['fetch-city-query'],
+                queryFn: async () => await fetchCities({stateAbbreviation: 'sp'}),
+            })
+            console.log(fetchedCities?.data)
+        }
+    }, [fetchedStates])
+
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -55,7 +67,7 @@ export function SelectCityState({ location }: ISelectCityStateProps) {
                     <CommandList>
                         <CommandEmpty>Cidade não encontrada</CommandEmpty>
                         <CommandGroup>
-                            {isLoading ?
+                            {isLoadingStates ?
                                 <>loading...</>
                                 : fetchedStates?.data.map((value: any) => (
                                     <CommandItem
