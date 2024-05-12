@@ -1,4 +1,4 @@
-import { ChevronDown,ChevronUp, LucideIcon } from 'lucide-react'
+import { ArrowBigDown,ArrowBigUp, LucideIcon } from 'lucide-react'
 
 import {
     Card,
@@ -36,12 +36,12 @@ export function CardData({ cardItem } : CardDataProps){
                         {cardItem.data[0] === '-'
                             ?
                             <>
-                                <ChevronUp className='ml-1 w-5 text-rose-400' />
+                                <ArrowBigUp className='ml-1 w-5 text-rose-400' />
                                 <div className='bg-rose-400 blur-[1.7rem] absolute top-0 right-4 w-4 h-4' />
                             </>
                             :
                             <>
-                                <ChevronDown className='ml-1 w-5 text-emerald-400' />
+                                <ArrowBigDown className='ml-1 w-5 text-emerald-400' />
                                 <div className='bg-emerald-400 blur-[1.7rem] absolute top-0 right-4 w-4 h-4' />
                             </>
                         }
