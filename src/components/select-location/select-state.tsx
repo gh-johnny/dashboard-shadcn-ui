@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 
+import { Skeleton } from '../ui/skeleton'
+
 type TStates = {
     id: number
     nome: string
@@ -31,7 +33,7 @@ type TStates = {
 }
 
 
-export default function SelectState({gettingAbbreviation} : {gettingAbbreviation : (stateAbbreviation: string) => void}) {
+export default function SelectState({ gettingAbbreviation }: { gettingAbbreviation: (stateAbbreviation: string) => void }) {
     const [open, setOpen] = useState(false)
 
     const [stateValue, setStateValue] = useState<TStates | null>(null)
@@ -68,15 +70,19 @@ export default function SelectState({gettingAbbreviation} : {gettingAbbreviation
                     <CommandInput placeholder="Search" />
                     <CommandList>
                         <CommandEmpty>Estado não encontrado</CommandEmpty>
-                        {isLoadingStates ?
-                            <>loading...</>
-                            : fetchedStates?.data.map((item: TStates) => (
-                                <CommandGroup className='bg-zinc-700'>
+                        <CommandGroup className='bg-zinc-700'>
+                            {isLoadingStates ?
+                                Array.from({ length: 2 }).map(_ =>
+                                    <CommandItem>
+                                        <Skeleton className='w-full h-[30px]' />
+                                    </CommandItem>
+                                )
+                                : fetchedStates?.data.map((item: TStates) => (
                                     <CommandItem
                                         key={item.sigla}
                                         value={item.nome}
                                         onSelect={() => onSelectState(item)}
-                                        className='text-white hover:text-black'
+                                        className='text-white hover:bg-white hover:text-black'
                                     >
                                         <Check
                                             className={cn(
@@ -86,9 +92,9 @@ export default function SelectState({gettingAbbreviation} : {gettingAbbreviation
                                         />
                                         {item.nome}
                                     </CommandItem>
-                                </CommandGroup>
-                            ))
-                        }
+                                ))
+                            }
+                        </CommandGroup>
                     </CommandList>
                 </Command>
             </PopoverContent>

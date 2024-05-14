@@ -20,6 +20,8 @@ import {
 import { cn } from '@/lib/utils'
 import { capitalizeCityName } from '@/utils/capitalize-city-name'
 
+import { Skeleton } from '../ui/skeleton'
+
 type TCities = {
     codigo_ibge: string
     nome: string
@@ -34,7 +36,7 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
 
     const [cityValue, setCityValue] = useState<string | null>(null)
 
-    const { mutateAsync: fetchCitiesFn, isSuccess } = useMutation({
+    const { mutateAsync: fetchCitiesFn, isSuccess: isSuccessFetchedCitiesData, isPending: isFetchCitiesPending } = useMutation({
         mutationKey: ['fetch-city-query'],
         mutationFn: fetchCities,
         onSuccess: data => setCitiesArr(data.data)
@@ -53,7 +55,7 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
 
     const matchCityName = (arr: TCities[] | null) => {
         if (!arr) return selectCityPlaceholder
-        const cityName =  arr.find(item => item.nome === cityValue)?.nome
+        const cityName = arr.find(item => item.nome === cityValue)?.nome
         if (!cityName) return selectCityPlaceholder
         return capitalizeCityName(cityName)
     }
@@ -73,8 +75,8 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                         className="bg-zinc-800 w-[200px] justify-between"
                     >
                         {cityValue
-                            ? matchCityName(citiesArr)                             
-                            : selectCityPlaceholder 
+                            ? matchCityName(citiesArr)
+                            : selectCityPlaceholder
                         }
                         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
@@ -84,14 +86,21 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                         <CommandInput placeholder="Search" />
                         <CommandList>
                             <CommandEmpty>Cidade não encontrada</CommandEmpty>
-                            {isSuccess && stateInfo !== null &&
-                                citiesArr?.map((item: TCities) => (
-                                    <CommandGroup className='bg-zinc-700'>
+                            <CommandGroup className='bg-zinc-700'>
+                                {isFetchCitiesPending &&
+                                    Array.from({ length: 2 }).map(_ =>
+                                        <CommandItem>
+                                            <Skeleton className='w-full h-[30px]' />
+                                        </CommandItem>
+                                    )
+                                }
+                                {isSuccessFetchedCitiesData && stateInfo !== null &&
+                                    citiesArr?.map((item: TCities) => (
                                         <CommandItem
                                             key={item.codigo_ibge}
                                             value={item.nome}
                                             onSelect={() => onSelectCity(item)}
-                                            className='text-white hover:text-black'
+                                            className='text-white hover:bg-white hover:text-black'
                                         >
                                             <Check
                                                 className={cn(
@@ -101,9 +110,9 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                                             />
                                             {capitalizeCityName(item.nome)}
                                         </CommandItem>
-                                    </CommandGroup>
-                                ))
-                            }
+                                    ))
+                                }
+                            </CommandGroup>
                         </CommandList>
                     </Command>
                 </PopoverContent>
