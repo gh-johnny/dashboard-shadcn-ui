@@ -27,6 +27,7 @@ import {
 import { queryClient } from '@/lib/react-query'
 
 import { SelectCityState } from '../select-city-state'
+import SelectLocation from '../select-location/select-location'
 
 const data = [
     {
@@ -74,8 +75,7 @@ export function MainLineChart() {
                         <div className='space-y-1 '>
                             <CardContent className='py-0 h-fit text-zinc-100 text-base font-medium'>
                                 <div className='flex flex-col gap-4 lg:items-center lg:flex-row lg:gap-0'>
-                                    <SelectCityState location='state'/>
-                                    <SelectCityState location='city'/>
+                                    <SelectLocation />
                                     <p className='whitespace-pre'>Ocorrências de<span className='lg:hidden'>:</span></p>
                                     <Select
                                         onValueChange={e => setSelectOccurrence(e)}
