@@ -13,9 +13,9 @@ export default function SelectLocation(){
     }
 
     return (
-        <>
+        <div className='flex gap-4 mr-2'>
             <SelectState gettingAbbreviation={passingThings}/>
             <SelectCity stateInfo={stateInfo}/>
-        </>
+        </div>
     )
 }

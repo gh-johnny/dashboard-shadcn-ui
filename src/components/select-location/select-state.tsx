@@ -54,7 +54,7 @@ export default function SelectState({gettingAbbreviation} : {gettingAbbreviation
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="bg-zinc-800 w-[200px] justify-between"
                 >
                     {stateValue
                         ? fetchedStates?.data.find((item: TStates) => item.nome === stateValue.nome)?.nome
@@ -64,18 +64,19 @@ export default function SelectState({gettingAbbreviation} : {gettingAbbreviation
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
-                <Command>
+                <Command className='bg-zinc-700 text-white'>
                     <CommandInput placeholder="Search" />
                     <CommandList>
                         <CommandEmpty>Estado não encontrado</CommandEmpty>
                         {isLoadingStates ?
                             <>loading...</>
                             : fetchedStates?.data.map((item: TStates) => (
-                                <CommandGroup>
+                                <CommandGroup className='bg-zinc-700'>
                                     <CommandItem
                                         key={item.sigla}
                                         value={item.nome}
                                         onSelect={() => onSelectState(item)}
+                                        className='text-white hover:text-black'
                                     >
                                         <Check
                                             className={cn(

@@ -70,7 +70,7 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="w-[200px] justify-between"
+                        className="bg-zinc-800 w-[200px] justify-between"
                     >
                         {cityValue
                             ? matchCityName(citiesArr)                             
@@ -80,17 +80,18 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
-                    <Command>
+                    <Command className='bg-zinc-700 text-white'>
                         <CommandInput placeholder="Search" />
                         <CommandList>
                             <CommandEmpty>Cidade não encontrada</CommandEmpty>
                             {isSuccess && stateInfo !== null &&
                                 citiesArr?.map((item: TCities) => (
-                                    <CommandGroup>
+                                    <CommandGroup className='bg-zinc-700'>
                                         <CommandItem
                                             key={item.codigo_ibge}
                                             value={item.nome}
                                             onSelect={() => onSelectCity(item)}
+                                            className='text-white hover:text-black'
                                         >
                                             <Check
                                                 className={cn(
