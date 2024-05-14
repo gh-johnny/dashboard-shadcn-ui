@@ -18,6 +18,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
+import { capitalizeCityName } from '@/utils/capitalize-city-name'
 
 type TCities = {
     codigo_ibge: string
@@ -48,15 +49,6 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
         if (stateInfo !== null) {
             await fetchCitiesFn({ stateAbbreviation: stateInfo })
         }
-    }
-
-    const capitalizeCityName = (name: string) => {
-        return name.split('').map((letter, i) => {
-            if (i <= 0) return letter
-            if(name[i - 1] === ' ' && letter !== 'D') return letter
-            letter = letter.toLowerCase()
-            return letter
-        })
     }
 
     const matchCityName = (arr: TCities[] | null) => {
