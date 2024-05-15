@@ -72,7 +72,7 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="bg-zinc-800 w-[200px] justify-between"
+                        className="bg-zinc-800 w-[200px] h-full justify-between"
                     >
                         {cityValue
                             ? matchCityName(citiesArr)

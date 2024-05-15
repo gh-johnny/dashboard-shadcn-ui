@@ -56,7 +56,7 @@ export default function SelectState({ gettingAbbreviation }: { gettingAbbreviati
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="bg-zinc-800 w-[200px] justify-between"
+                    className="bg-zinc-800 h-full w-[200px] justify-between"
                 >
                     {stateValue
                         ? fetchedStates?.data.find((item: TStates) => item.nome === stateValue.nome)?.nome
