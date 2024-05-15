@@ -8,14 +8,16 @@ import {
     SelectValue,
 } from '@/components/ui/select'
 
+const defaultOccurrenceValue = 'Selecione a Ocorrência'
+
 export default function SelectOccurrence(){
-    const [selectOccurrence, setSelectOccurrence] = useState('Vazamento de Esgoto')
+    const [selectOccurrence, setSelectOccurrence] = useState(defaultOccurrenceValue)
 
     return (
         <Select
             onValueChange={e => setSelectOccurrence(e)}
             value={selectOccurrence}
-            defaultValue={selectOccurrence}
+            defaultValue={defaultOccurrenceValue}
         >
             <SelectTrigger className="w-[225px] h-10 border rounded-md py-2 mx-2">
                 <SelectValue>{selectOccurrence}</SelectValue>
