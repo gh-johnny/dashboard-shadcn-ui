@@ -33,7 +33,7 @@ type TStates = {
 }
 
 
-export default function SelectState({ gettingAbbreviation }: { gettingAbbreviation: (stateAbbreviation: string) => void }) {
+export function SelectState({ gettingAbbreviation }: { gettingAbbreviation: (stateAbbreviation: string) => void }) {
     const [open, setOpen] = useState(false)
 
     const [stateValue, setStateValue] = useState<TStates | null>(null)
@@ -56,7 +56,7 @@ export default function SelectState({ gettingAbbreviation }: { gettingAbbreviati
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="bg-zinc-800 h-full w-[200px] justify-between"
+                    className="w-full mt-2 bg-zinc-800 h-full lg:w-[200px] justify-between"
                 >
                     {stateValue
                         ? fetchedStates?.data.find((item: TStates) => item.nome === stateValue.nome)?.nome

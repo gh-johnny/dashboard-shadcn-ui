@@ -10,7 +10,7 @@ import {
 
 const defaultOccurrenceValue = 'Selecione a Ocorrência'
 
-export default function SelectOccurrence(){
+export function SelectOccurrence(){
     const [selectOccurrence, setSelectOccurrence] = useState(defaultOccurrenceValue)
 
     return (
@@ -19,8 +19,8 @@ export default function SelectOccurrence(){
             value={selectOccurrence}
             defaultValue={defaultOccurrenceValue}
         >
-            <SelectTrigger className="w-[225px] h-10 border rounded-md py-2 mx-2">
-                <SelectValue>{selectOccurrence}</SelectValue>
+            <SelectTrigger className="w-full lg:w-[225px] mt-2 h-10 border rounded-md py-2">
+                <SelectValue className='text-left'>{selectOccurrence}</SelectValue>
             </SelectTrigger>
             <SelectContent className='bg-zinc-700 text-zinc-200'>
                 <SelectItem className="" value="Vazamento de Esgoto">Vazamento de Esgoto</SelectItem>

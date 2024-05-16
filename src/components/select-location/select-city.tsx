@@ -29,7 +29,7 @@ type TCities = {
 
 const selectCityPlaceholder = 'Selecione a Cidade'
 
-export default function SelectCity({ stateInfo }: { stateInfo: string | null }) {
+export function SelectCity({ stateInfo }: { stateInfo: string | null }) {
     const [open, setOpen] = useState(false)
 
     const [citiesArr, setCitiesArr] = useState<TCities[] | null>(null)
@@ -72,7 +72,7 @@ export default function SelectCity({ stateInfo }: { stateInfo: string | null }) 
                         variant="outline"
                         role="combobox"
                         aria-expanded={open}
-                        className="bg-zinc-800 w-[200px] h-full justify-between"
+                        className="w-full mt-2 bg-zinc-800 lg:w-[200px] h-full justify-between"
                     >
                         {cityValue
                             ? matchCityName(citiesArr)

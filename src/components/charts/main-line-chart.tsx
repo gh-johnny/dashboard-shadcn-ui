@@ -1,5 +1,4 @@
 'use client'
-import { QueryClientProvider } from '@tanstack/react-query'
 import {
     CartesianGrid,
     Line,
@@ -15,11 +14,8 @@ import {
     CardContent,
     CardHeader,
 } from '@/components/ui/card'
-import { DatePickerWithRange } from '@/components/ui/date-picker'
-import { queryClient } from '@/lib/react-query'
 
-import SelectLocation from '../select-location/select-location'
-import SelectOccurrence from '../select-occurrence'
+import { Filters } from '../filters'
 
 const data = [
     {
@@ -59,47 +55,41 @@ const data = [
 export function MainLineChart() {
     return (
         <>
-            <QueryClientProvider client={queryClient}>
-                <Card className='flex-1 bg-zinc-800'>
-                    <CardHeader className='flex-row items-center justify-between pb-8'>
-                        <div className='space-y-1 '>
-                            <CardContent className='py-0 h-fit text-zinc-100 text-base font-medium'>
-                                <div className='flex flex-col flex-wrap gap-4 lg:items-center lg:flex-row lg:gap-0'>
-                                    <SelectLocation />
-                                    <SelectOccurrence />
-                                    <DatePickerWithRange className='ml-2 lg:ml-0' />
-                                </div>
-                            </CardContent>
-                        </div>
-                    </CardHeader>
+            <Card className='flex-1 flex flex-col lg:gap-[6vw] xl:gap-[3vw] bg-zinc-800'>
+                <CardHeader className='flex-row items-center justify-between lg:pb-8'>
+                    <div className='space-y-1'>
+                        <section className='hidden lg:block py-0 h-fit text-zinc-100 text-base font-medium'>
+                            <Filters />
+                        </section>
+                    </div>
+                </CardHeader>
 
-                    <CardContent className=''>
-                        <ResponsiveContainer width='100%' height={240}>
-                            <LineChart data={data} style={{ fontsize: 12 }}>
-                                <CartesianGrid vertical={false} className='stroke-muted' />
-                                <Line
-                                    type='linear'
-                                    strokeWidth={2}
-                                    dataKey='value'
-                                    stroke={color.yellow[500]}
-                                />
-                                <YAxis
-                                    stroke='#a1a1aa'
-                                    axisLine={false}
-                                    tickLine={false}
-                                    width={80}
-                                    tickFormatter={(value: number) =>
-                                        value.toLocaleString('en-US', {
-                                            style: 'currency',
-                                            currency: 'USD',
-                                        })
-                                    }
-                                />
-                                <XAxis dataKey='date' stroke='#a1a1aa' tickLine={false} axisLine={false} dy={16} />                        </LineChart>
-                        </ResponsiveContainer>
-                    </CardContent>
-                </Card>
-            </QueryClientProvider>
+                <CardContent>
+                    <ResponsiveContainer width='100%' height={240}>
+                        <LineChart data={data} style={{ fontsize: 12 }}>
+                            <CartesianGrid vertical={false} className='stroke-muted' />
+                            <Line
+                                type='linear'
+                                strokeWidth={2}
+                                dataKey='value'
+                                stroke={color.yellow[500]}
+                            />
+                            <YAxis
+                                stroke='#a1a1aa'
+                                axisLine={false}
+                                tickLine={false}
+                                width={80}
+                                tickFormatter={(value: number) =>
+                                    value.toLocaleString('en-US', {
+                                        style: 'currency',
+                                        currency: 'USD',
+                                    })
+                                }
+                            />
+                            <XAxis dataKey='date' stroke='#a1a1aa' tickLine={false} axisLine={false} dy={16} />                        </LineChart>
+                    </ResponsiveContainer>
+                </CardContent>
+            </Card>
         </>
     )
 }
