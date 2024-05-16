@@ -1,5 +1,6 @@
 import { CardSection } from '@/components/cards-occurrences/cards-slider'
 import { MainBarChart } from '@/components/charts/main-bar-chart'
+import GoogleMaps from '@/components/maps/google-maps'
 import FilterMobileSection from '@/components/mobile/filter-mobile-section'
 import QueryClientWrapper from '@/contexts/query-client-wrapper'
 
@@ -12,11 +13,13 @@ export default function Home() {
                     <CardSection />
                     <QueryClientWrapper>
                         <FilterMobileSection />
-                        <section className='lg:grid lg:grid-cols-6'>
+                        <section className='lg:grid lg:grid-cols-6 gap-4'>
                             <section className='col-span-4'>
                                 <MainBarChart />
                             </section>
-                            <section className='col-span-2 border'></section>
+                            <section className='overflow-hidden bg-zinc-800 col-span-2 rounded-lg'>
+                                <GoogleMaps />
+                            </section>
                         </section>
                     </QueryClientWrapper>
                 </main>
