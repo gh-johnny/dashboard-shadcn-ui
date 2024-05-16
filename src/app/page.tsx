@@ -1,5 +1,5 @@
 import { CardSection } from '@/components/cards-occurrences/cards-slider'
-import { MainLineChart } from '@/components/charts/main-line-chart'
+import { MainBarChart } from '@/components/charts/main-bar-chart'
 import FilterMobileSection from '@/components/mobile/filter-mobile-section'
 import QueryClientWrapper from '@/contexts/query-client-wrapper'
 
@@ -14,7 +14,7 @@ export default function Home() {
                         <FilterMobileSection />
                         <section className='lg:grid lg:grid-cols-6'>
                             <section className='col-span-4'>
-                                <MainLineChart />
+                                <MainBarChart />
                             </section>
                             <section className='col-span-2 border'></section>
                         </section>
