@@ -25,6 +25,9 @@ export default function GoogleMaps() {
             const mapOptions: google.maps.MapOptions = {
                 center: position,
                 zoom: 12,
+                disableDefaultUI: true,
+                zoomControl: true,
+                fullscreenControl: true,
                 // Them styles only work in the cloud console when mapId exists
                 // mapId: 'my_nextjs_mapid',
                 styles: [
