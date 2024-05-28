@@ -72,8 +72,8 @@ export function SelectState({ gettingAbbreviation }: { gettingAbbreviation: (sta
                         <CommandEmpty>Estado não encontrado</CommandEmpty>
                         <CommandGroup className='bg-zinc-700'>
                             {isLoadingStates ?
-                                Array.from({ length: 2 }).map(_ =>
-                                    <CommandItem>
+                                Array.from({ length: 2 }).map((_, key) =>
+                                    <CommandItem key={key}>
                                         <Skeleton className='w-full h-[30px]' />
                                     </CommandItem>
                                 )
