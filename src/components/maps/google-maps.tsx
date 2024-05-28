@@ -28,7 +28,7 @@ export function GoogleMapsMap() {
                     zoomControl={true}
                     fullscreenControl={true}
                     defaultCenter={{ lat: -23.5505, lng: -46.6333 }}
-                    mapId="4150209d5bf4c93e"
+                    mapId={process.env.NEXT_PUBLIC_MAPS_ID}
                 >
                     <Markers data={mapData} />
                 </Map>
