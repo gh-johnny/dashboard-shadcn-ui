@@ -1,126 +1,87 @@
 'use client'
-import { Loader } from '@googlemaps/js-api-loader'
-import { useEffect, useRef } from 'react'
 
-export default function GoogleMaps() {
-    const mapRef = useRef<HTMLDivElement | null>(null)
+import { Marker, MarkerClusterer } from '@googlemaps/markerclusterer'
+import {
+    AdvancedMarker,
+    APIProvider,
+    Map,
+    useMap
+} from '@vis.gl/react-google-maps'
+import { Droplet } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+
+type TData = { key: string, lat: number, lng: number }
+
+const mapData: TData[] = [
+    { key: 'Ash', lat: -23.5505, lng: -46.6333 },
+    { key: 'Ash', lat: -23.5835, lng: -46.6733 },
+    { key: 'Ash', lat: -23.5385, lng: -46.6133 },
+]
+
+export function GoogleMapsMap() {
+    return (
+        <div className='h-full w-full'>
+            <APIProvider apiKey={process.env.NEXT_PUBLIC_MAPS_API_KEY}>
+                <Map
+                    defaultZoom={10}
+                    disableDefaultUI={true}
+                    zoomControl={true}
+                    fullscreenControl={true}
+                    defaultCenter={{ lat: -23.5505, lng: -46.6333 }}
+                    mapId={process.env.NEXT_PUBLIC_MAPS_ID}
+                >
+                    <Markers data={mapData} />
+                </Map>
+            </APIProvider>
+        </div>
+    )
+}
+
+function Markers({ data }: { data: TData[] }) {
+    const map = useMap()
+    const [markers, setMarkers] = useState<{ [key: string]: Marker }>({})
+
+    const clusterer = useRef<MarkerClusterer | null>(null)
+
+    const setMarkerRef = (marker: Marker | null, key: string) => {
+        if (marker && markers[key]) return
+        if (!marker && !markers[key]) return
+
+        setMarkers(prev => {
+            if (marker) {
+                return { ...prev, [key]: marker }
+            }
+            const newMarkers = { ...prev }
+            delete newMarkers[key]
+            return newMarkers
+        })
+    }
 
     useEffect(() => {
-
-        const initMap = async () => {
-            const loader = new Loader({
-                apiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
-                version: 'weekly'
-            })
-
-            const { Marker } = await loader.importLibrary('marker') as google.maps.MarkerLibrary
-
-            const { Map } = await loader.importLibrary('maps')
-
-            const position = {
-                lat: -23.5505,
-                lng: -46.6333
-            }
-
-            const mapOptions: google.maps.MapOptions = {
-                center: position,
-                zoom: 12,
-                // Them styles only work in the cloud console when mapId exists
-                // mapId: 'my_nextjs_mapid',
-                styles: [
-                    { elementType: 'geometry', stylers: [{ color: '#242f3e' }] },
-                    { elementType: 'labels.text.stroke', stylers: [{ color: '#242f3e' }] },
-                    { elementType: 'labels.text.fill', stylers: [{ color: '#746855' }] },
-                    {
-                        featureType: 'administrative.locality',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#d59563' }],
-                    },
-                    {
-                        featureType: 'poi',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#d59563' }],
-                    },
-                    {
-                        featureType: 'poi.park',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#263c3f' }],
-                    },
-                    {
-                        featureType: 'poi.park',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#6b9a76' }],
-                    },
-                    {
-                        featureType: 'road',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#38414e' }],
-                    },
-                    {
-                        featureType: 'road',
-                        elementType: 'geometry.stroke',
-                        stylers: [{ color: '#212a37' }],
-                    },
-                    {
-                        featureType: 'road',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#9ca5b3' }],
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#746855' }],
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.stroke',
-                        stylers: [{ color: '#1f2835' }],
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#f3d19c' }],
-                    },
-                    {
-                        featureType: 'transit',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#2f3948' }],
-                    },
-                    {
-                        featureType: 'transit.station',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#d59563' }],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'geometry',
-                        stylers: [{ color: '#17263c' }],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.text.fill',
-                        stylers: [{ color: '#515c6d' }],
-                    },
-                    {
-                        featureType: 'water',
-                        elementType: 'labels.text.stroke',
-                        stylers: [{ color: '#17263c' }],
-                    },
-                ]
-            }
-
-            const map = new Map(mapRef.current as HTMLDivElement, mapOptions)
-
-            const marker = new Marker({
-                map: map,
-                position: position
-            })
+        if (!map) return
+        if (!clusterer.current) {
+            clusterer.current = new MarkerClusterer({ map })
         }
+    }, [map])
 
-        initMap()
-    }, [])
+    useEffect(() => {
+        clusterer.current?.clearMarkers()
+        clusterer.current?.addMarkers(Object.values(markers))
+    }, [markers])
 
     return (
-        <div style={{ height: '100%' }} ref={mapRef} />
+        <>
+            {data.map((point, i) =>
+                <AdvancedMarker
+                    key={point.key}
+                    ref={marker => setMarkerRef(marker, point.key)}
+                    position={point}
+                >
+                    {i === 1 ? <Droplet className='text-rose-600' />
+                        : <Droplet className='text-emerald-600' />
+                    }
+                </AdvancedMarker>
+            )}
+        </>
     )
 }

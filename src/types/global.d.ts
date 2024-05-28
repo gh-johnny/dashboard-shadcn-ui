@@ -3,6 +3,7 @@ export declare global {
         interface ProcessEnv {
             NEXT_PUBLIC_BRASILAPI_URL: string
             NEXT_PUBLIC_MAPS_API_KEY: string
+            NEXT_PUBLIC_MAPS_ID: string
         }
     }
 }
